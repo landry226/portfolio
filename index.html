@@ -515,11 +515,117 @@ footer{
 ::-webkit-scrollbar-thumb{background:rgba(255,196,68,.2);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
 
+/* ── PHOTO SHINE EFFECT ── */
+.photo-frame::after{
+  content:'';position:absolute;top:-50%;left:-60%;
+  width:40%;height:200%;
+  background:linear-gradient(to right,transparent,rgba(255,255,255,.08),transparent);
+  transform:skewX(-20deg);animation:photoShine 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes photoShine{0%,100%{left:-60%;opacity:0}40%{opacity:1}50%{left:130%;opacity:0}}
+
+/* ── FLOATING TECH BADGES ── */
+.tech-float{
+  position:absolute;background:var(--card2);border:1px solid var(--border2);
+  border-radius:10px;padding:.4rem .75rem;
+  font-family:var(--fm);font-size:.62rem;color:var(--text);
+  display:flex;align-items:center;gap:.35rem;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  animation:techFloat 3s ease-in-out infinite;
+  white-space:nowrap;z-index:2;
+}
+.tech-float:nth-child(1){top:0;left:-80px;animation-delay:0s}
+.tech-float:nth-child(2){bottom:20px;left:-90px;animation-delay:1s}
+.tech-float:nth-child(3){top:10px;right:-80px;animation-delay:.6s}
+.tech-float:nth-child(4){bottom:30px;right:-85px;animation-delay:1.6s}
+@keyframes techFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* ── TYPEWRITER CURSOR ── */
+.tw-cursor{
+  display:inline-block;width:2px;height:1.1em;
+  background:var(--gold);margin-left:3px;vertical-align:text-bottom;
+  animation:blinkCursor .7s step-end infinite;
+}
+@keyframes blinkCursor{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ── DOWNLOAD CV BUTTON ── */
+.btn-cv{
+  background:transparent;color:var(--teal);
+  border:1px solid rgba(0,245,200,.3);
+  position:relative;overflow:hidden;
+}
+.btn-cv::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,245,200,.08),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.btn-cv:hover{border-color:var(--teal);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,245,200,.15)}
+.btn-cv:hover::before{opacity:1}
+
+/* ── SCROLL TO TOP ── */
+#scrollTop{
+  position:fixed;bottom:2rem;right:2rem;z-index:400;
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;color:#04040d;cursor:none;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;opacity:0;pointer-events:none;
+  transition:all .3s;box-shadow:0 4px 20px rgba(255,196,68,.3);
+  transform:translateY(10px);
+}
+#scrollTop.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+#scrollTop:hover{transform:translateY(-3px) scale(1.08);box-shadow:0 8px 28px rgba(255,196,68,.45)}
+
+/* ── STATS ANIMATED ── */
+.stat-n{transition:color .3s}
+.stat-item{cursor:default}
+.stat-item:hover .stat-n{
+  animation:statPop .3s ease;
+}
+@keyframes statPop{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+/* ── SECTION HIGHLIGHT LINE ── */
+section::after{
+  content:'';position:absolute;left:6%;top:0;width:2px;height:0;
+  background:linear-gradient(180deg,var(--gold),transparent);
+  transition:height 1s ease;pointer-events:none;
+}
+section.visible-section::after{height:100%}
+
+/* ── SKILLS ENHANCED ── */
+.skill-level{display:flex;gap:3px;margin-top:.5rem;justify-content:center}
+.skill-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background .3s}
+.skill-dot.lit{background:var(--gold)}
+.skill-card:hover .skill-dot.lit{box-shadow:0 0 6px var(--gold)}
+
+/* ── PROJ CARD ENHANCED ── */
+.proj-card .proj-num{transition:all .3s}
+.proj-card:hover .proj-num{border-color:rgba(255,196,68,.3);color:var(--gold)}
+
+/* ── AVAILABLE BANNER ── */
+.avail-pill{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:linear-gradient(135deg,rgba(0,245,200,.08),rgba(0,191,160,.04));
+  border:1px solid rgba(0,245,200,.2);border-radius:999px;
+  padding:.55rem 1.3rem;font-family:var(--fm);font-size:.68rem;
+  color:var(--teal);letter-spacing:.06em;margin-bottom:1.5rem;
+  position:relative;overflow:hidden;
+}
+.avail-pill::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(0,245,200,.06),transparent);
+  animation:pillShine 3s ease-in-out infinite;
+}
+@keyframes pillShine{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
   .about-grid,.contact-wrap{grid-template-columns:1fr;gap:3rem}
   .hero{flex-direction:column;justify-content:center;padding-top:7.5rem}
   .photo-zone{order:0}
+  .tech-float{display:none}
 }
 @media(max-width:640px){
   .nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(4,4,13,.98);padding:1.5rem 6%;gap:1.2rem;border-bottom:1px solid var(--border)}
@@ -566,11 +672,17 @@ footer{
 
   <!-- PHOTO -->
   <div class="photo-zone">
+    <!-- Floating tech badges -->
+    <div class="tech-float">☕ JavaFX</div>
+    <div class="tech-float">📱 Flutter</div>
+    <div class="tech-float">🐍 Python</div>
+    <div class="tech-float">🔥 Firebase</div>
+
     <div class="photo-ring-outer"></div>
     <div class="photo-ring-inner"></div>
     <div class="photo-frame" id="photoFrame">
-      <img id="photoImg" src="" alt="Landry Tapsoba" style="display:none"/>
-      <div class="photo-placeholder" id="photoPlaceholder">
+      <img id="photoImg" src="photo-profil.jpg" alt="Landry Tapsoba" style="display:block"/>
+      <div class="photo-placeholder" id="photoPlaceholder" style="display:none">
         <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity=".3">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
         </svg>
@@ -586,6 +698,10 @@ footer{
 
   <!-- CONTENT -->
   <div class="hero-content">
+    <div class="avail-pill">
+      <span class="avail-dot"></span>
+      Open to work · Disponible dès maintenant
+    </div>
     <p class="hero-eyebrow">Développeur Full Stack</p>
     <h1 class="hero-name">
       <span class="line1">Tapsoba</span>
@@ -595,12 +711,13 @@ footer{
     <div class="hero-title-wrap">
       <span class="hero-title">
         <span class="hero-title-bar"></span>
-        Développeur Full Stack · Futur Ingénieur 2026
+        <span id="typewriter"></span><span class="tw-cursor"></span>
       </span>
     </div>
     <p class="hero-desc">
       Passionné par la création de solutions numériques <strong>robustes et élégantes</strong>,
-      je conçois des applications desktop, mobiles et backend — des idées jusqu'au produit fini,
+      je suis <strong>déjà développeur Full Stack opérationnel</strong> — je conçois et réalise
+      des applications desktop, mobiles et backend, des idées jusqu'au produit fini,
       avec <strong>rigueur algorithmique</strong> et créativité.
     </p>
     <div class="cta-row">
@@ -612,12 +729,16 @@ footer{
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
         Me contacter
       </a>
+      <a href="javascript:window.print()" class="btn btn-cv">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Télécharger CV
+      </a>
     </div>
     <div class="stats-row">
-      <div class="stat-item"><div class="stat-n">5+</div><div class="stat-l">Projets</div></div>
-      <div class="stat-item"><div class="stat-n">12+</div><div class="stat-l">Technologies</div></div>
-      <div class="stat-item"><div class="stat-n">3</div><div class="stat-l">Langues</div></div>
-      <div class="stat-item"><div class="stat-n">2026</div><div class="stat-l">Ingénieur</div></div>
+      <div class="stat-item"><div class="stat-n" data-target="5">0</div><div class="stat-l">Projets</div></div>
+      <div class="stat-item"><div class="stat-n" data-target="12">0</div><div class="stat-l">Technologies</div></div>
+      <div class="stat-item"><div class="stat-n" data-target="3">0</div><div class="stat-l">Langues</div></div>
+      <div class="stat-item"><div class="stat-n" data-target="2026" data-suffix="">0</div><div class="stat-l">Ingénieur</div></div>
     </div>
   </div>
 </section>
@@ -696,18 +817,18 @@ footer{
     </div>
     <p class="skills-intro reveal">Un spectre large de technologies couvrant le développement desktop, mobile, backend et la gestion de données — forgé par la pratique et des projets réels.</p>
     <div class="skills-grid">
-      <div class="skill-card reveal"><div class="s-icon">☕</div><div class="s-name">JavaFX</div><div class="s-cat">Desktop UI</div></div>
-      <div class="skill-card reveal"><div class="s-icon">🐍</div><div class="s-name">Python</div><div class="s-cat">Backend / Script</div></div>
-      <div class="skill-card reveal"><div class="s-icon">📱</div><div class="s-name">Flutter</div><div class="s-cat">Mobile Cross-Platform</div></div>
-      <div class="skill-card reveal"><div class="s-icon">🎯</div><div class="s-name">Dart</div><div class="s-cat">Langage Flutter</div></div>
-      <div class="skill-card reveal"><div class="s-icon">⚙️</div><div class="s-name">C</div><div class="s-cat">Système</div></div>
-      <div class="skill-card reveal"><div class="s-icon">🔧</div><div class="s-name">C++</div><div class="s-cat">POO</div></div>
-      <div class="skill-card reveal"><div class="s-icon">🗄️</div><div class="s-name">SQL</div><div class="s-cat">Base de données</div></div>
-      <div class="skill-card reveal"><div class="s-icon">📦</div><div class="s-name">SQLite</div><div class="s-cat">BD embarquée</div></div>
-      <div class="skill-card reveal"><div class="s-icon">🌿</div><div class="s-name">NoSQL</div><div class="s-cat">Non-relationnel</div></div>
-      <div class="skill-card reveal"><div class="s-icon">🔥</div><div class="s-name">Firebase</div><div class="s-cat">BaaS</div></div>
-      <div class="skill-card reveal"><div class="s-icon">📐</div><div class="s-name">Pascal</div><div class="s-cat">Algorithmique</div></div>
-      <div class="skill-card reveal"><div class="s-icon">🧠</div><div class="s-name">Algorithmique</div><div class="s-cat">Logique & Structures</div></div>
+      <div class="skill-card reveal"><div class="s-icon">☕</div><div class="s-name">JavaFX</div><div class="s-cat">Desktop UI</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">🐍</div><div class="s-name">Python</div><div class="s-cat">Backend / Script</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">📱</div><div class="s-name">Flutter</div><div class="s-cat">Mobile Cross-Platform</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">🎯</div><div class="s-name">Dart</div><div class="s-cat">Langage Flutter</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">⚙️</div><div class="s-name">C</div><div class="s-cat">Système</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">🔧</div><div class="s-name">C++</div><div class="s-cat">POO</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">🗄️</div><div class="s-name">SQL</div><div class="s-cat">Base de données</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">📦</div><div class="s-name">SQLite</div><div class="s-cat">BD embarquée</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">🌿</div><div class="s-name">NoSQL</div><div class="s-cat">Non-relationnel</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">🔥</div><div class="s-name">Firebase</div><div class="s-cat">BaaS</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">📐</div><div class="s-name">Pascal</div><div class="s-cat">Algorithmique</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot"></span></div></div>
+      <div class="skill-card reveal"><div class="s-icon">🧠</div><div class="s-name">Algorithmique</div><div class="s-cat">Logique & Structures</div><div class="skill-level"><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span><span class="skill-dot lit"></span></div></div>
     </div>
   </div>
 </section>
@@ -807,9 +928,9 @@ footer{
         <h3>Une idée ? Un <span>projet</span> ?<br/>Parlons-en !</h3>
         <p>Disponible pour des missions, projets ou collaborations. Je réponds rapidement à tous les messages — n'hésite pas !</p>
         <div class="c-list">
-          <a href="/cdn-cgi/l/email-protection#571b363933252e2336272438353660666f6017303a363e3b7934383a" class="c-item">
+          <a href="mailto:Landrytapsoba7187@gmail.com" class="c-item">
             <div class="c-icon" style="background:rgba(255,196,68,.1)">📧</div>
-            <div class="c-info"><div class="c-label">Email</div><div class="c-val"><span class="__cf_email__" data-cfemail="b3ffd2ddd7c1cac7d2c3c0dcd1d284828b84f3d4ded2dadf9dd0dcde">[email&#160;protected]</span></div></div>
+            <div class="c-info"><div class="c-label">Email</div><div class="c-val">Landrytapsoba7187@gmail.com</div></div>
           </a>
           <a href="https://github.com/Landry226" target="_blank" class="c-item">
             <div class="c-icon" style="background:rgba(181,123,238,.1)">🐙</div>
@@ -845,8 +966,10 @@ footer{
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
-<footer>
+<!-- ── SCROLL TO TOP ── -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Haut de page">↑</button>
+
+<!-- ── FOOTER ── --><footer>
   <span class="footer-logo">[ LT.dev ]</span>
   <div class="footer-text">
     <p>Conçu & codé par <span style="color:var(--gold)">Tapsoba Landry Dimitri Wendgoudi</span></p>
@@ -875,6 +998,54 @@ footer{
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── TYPEWRITER ──
+const twEl = document.getElementById('typewriter');
+const twPhrases = [
+  'Développeur Full Stack',
+  'Futur Ingénieur 2026',
+  'Desktop · Mobile · Backend',
+  'Créateur de solutions'
+];
+let twI=0,twJ=0,twDir=1;
+function typewrite(){
+  const phrase = twPhrases[twI];
+  twEl.textContent = phrase.slice(0,twJ);
+  if(twDir===1){
+    twJ++;
+    if(twJ>phrase.length){twDir=-1;setTimeout(typewrite,1800);return}
+  } else {
+    twJ--;
+    if(twJ<0){twDir=1;twJ=0;twI=(twI+1)%twPhrases.length;setTimeout(typewrite,400);return}
+  }
+  setTimeout(typewrite, twDir===1 ? 60 : 35);
+}
+typewrite();
+
+// ── ANIMATED COUNTERS ──
+function animCounter(el){
+  const target=+el.dataset.target;
+  const suffix=el.dataset.suffix!==undefined?el.dataset.suffix:(target>100?'':'+');
+  const dur=1600;const step=16;const inc=target/(dur/step);
+  let cur=0;
+  const t=setInterval(()=>{
+    cur+=inc;
+    if(cur>=target){cur=target;clearInterval(t)}
+    el.textContent=Math.round(cur)+(suffix!==undefined?suffix:'+');
+  },step);
+}
+const counterObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){animCounter(e.target);counterObs.unobserve(e.target)}
+  });
+},{threshold:.3});
+document.querySelectorAll('.stat-n[data-target]').forEach(el=>counterObs.observe(el));
+
+// ── SCROLL TOP BUTTON ──
+const scrollTopBtn=document.getElementById('scrollTop');
+window.addEventListener('scroll',()=>{
+  scrollTopBtn.classList.toggle('show',window.scrollY>400);
+});
+
 // ── CUSTOM CURSOR ──
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
@@ -946,8 +1117,12 @@ const photoInput=document.getElementById('photoInput');
 const photoImg=document.getElementById('photoImg');
 const photoPlaceholder=document.getElementById('photoPlaceholder');
 
-// Restore
-try{const s=localStorage.getItem('lt_photo2');if(s){photoImg.src=s;photoImg.style.display='block';photoPlaceholder.style.display='none'}}catch{}
+// Restore depuis localStorage si admin a changé la photo, sinon photo par défaut
+try{
+  const s=localStorage.getItem('lt_photo2');
+  if(s){photoImg.src=s;photoImg.style.display='block';photoPlaceholder.style.display='none'}
+  else{photoImg.src='photo-profil.jpg';photoImg.style.display='block';photoPlaceholder.style.display='none'}
+}catch{photoImg.src='photo-profil.jpg';photoImg.style.display='block';photoPlaceholder.style.display='none'}
 
 document.getElementById('photoFrame').addEventListener('dblclick',()=>{
   document.getElementById('pwModal').classList.add('open');

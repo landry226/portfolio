@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>QR Code – Portfolio Landry</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:#04040d;color:#f0f0ff;
+    font-family:'Outfit',sans-serif;
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    padding:2rem;
+  }
+  .card{
+    background:#0c0c20;border:1px solid #1a1a3a;border-radius:24px;
+    padding:3rem 2.5rem;max-width:420px;width:100%;text-align:center;
+    position:relative;overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);
+  }
+  .card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg,#ffc444,#ff6eb4,#00f5c8);
+  }
+  .top-label{
+    font-family:'JetBrains Mono',monospace;font-size:.65rem;
+    color:#00f5c8;letter-spacing:.18em;text-transform:uppercase;
+    margin-bottom:1.5rem;
+  }
+  .name{
+    font-size:1.6rem;font-weight:900;margin-bottom:.3rem;
+    background:linear-gradient(135deg,#ffc444,#ff6eb4);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .title{font-size:.85rem;color:#6b6b8a;margin-bottom:2rem;font-family:'JetBrains Mono',monospace}
+  /* QR frame */
+  .qr-wrap{
+    background:#fff;border-radius:16px;padding:1.2rem;
+    display:inline-block;margin-bottom:1.8rem;
+    box-shadow:0 0 40px rgba(255,196,68,.15);
+  }
+  #qrcode canvas, #qrcode img{border-radius:8px}
+  .url{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;
+    color:#ffc444;background:rgba(255,196,68,.06);
+    border:1px solid rgba(255,196,68,.15);border-radius:8px;
+    padding:.6rem 1rem;margin-bottom:1.5rem;word-break:break-all;
+    letter-spacing:.04em;
+  }
+  .hint{font-size:.78rem;color:#5a5a80;line-height:1.6}
+  .hint span{color:#00f5c8}
+
+  /* bouton télécharger */
+  .dl-btn{
+    display:inline-flex;align-items:center;gap:.5rem;
+    margin-top:1.5rem;padding:.7rem 1.8rem;border-radius:8px;
+    background:linear-gradient(135deg,#ffc444,#ff9a00);
+    color:#04040d;font-family:'JetBrains Mono',monospace;
+    font-size:.75rem;font-weight:700;letter-spacing:.06em;
+    border:none;cursor:pointer;transition:all .3s;text-decoration:none;
+  }
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,196,68,.35)}
+
+  /* deco dots */
+  .dots{position:absolute;bottom:1rem;right:1rem;opacity:.06;font-size:3rem;line-height:1}
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="top-label">// Scan pour visiter</p>
+  <div class="name">Landry Tapsoba</div>
+  <div class="title">Full Stack Developer · 2026</div>
+
+  <div class="qr-wrap">
+    <div id="qrcode"></div>
+  </div>
+
+  <div class="url">https://landry226.github.io/portfolio</div>
+  <p class="hint">Scanne ce QR code avec ton téléphone<br/>pour accéder au portfolio de <span>Landry Tapsoba</span></p>
+
+  <br/>
+  <button class="dl-btn" onclick="downloadQR()">
+    ⬇️ Télécharger le QR Code
+  </button>
+  <div class="dots">{ }</div>
+</div>
+
+<script>
+  // Générer le QR code
+  var qr = new QRCode(document.getElementById('qrcode'), {
+    text: 'https://landry226.github.io/portfolio',
+    width: 220,
+    height: 220,
+    colorDark: '#04040d',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  // Télécharger en PNG
+  function downloadQR(){
+    setTimeout(()=>{
+      var canvas = document.querySelector('#qrcode canvas');
+      if(!canvas){ alert('QR code pas encore généré, réessaie dans 1 seconde'); return; }
+      var link = document.createElement('a');
+      link.download = 'QRCode_Portfolio_Landry.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }, 200);
+  }
+</script>
+</body>
+</html>
