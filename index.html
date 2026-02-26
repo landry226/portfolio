@@ -549,19 +549,6 @@ footer{
 }
 @keyframes blinkCursor{0%,100%{opacity:1}50%{opacity:0}}
 
-/* ── DOWNLOAD CV BUTTON ── */
-.btn-cv{
-  background:transparent;color:var(--teal);
-  border:1px solid rgba(0,245,200,.3);
-  position:relative;overflow:hidden;
-}
-.btn-cv::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(0,245,200,.08),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.btn-cv:hover{border-color:var(--teal);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,245,200,.15)}
-.btn-cv:hover::before{opacity:1}
 
 /* ── SCROLL TO TOP ── */
 #scrollTop{
@@ -728,10 +715,6 @@ section.visible-section::after{height:100%}
       <a href="#contact" class="btn btn-ghost">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
         Me contacter
-      </a>
-      <a href="javascript:window.print()" class="btn btn-cv">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Télécharger CV
       </a>
     </div>
     <div class="stats-row">
