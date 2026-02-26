@@ -508,6 +508,7 @@ footer{
 /* ── SCROLL REVEAL ── */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:5px}
@@ -1156,33 +1157,52 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
   el.style.transitionDelay=(i%5)*.08+'s';revealObs.observe(el);
 });
 
-// ── FORM MAILTO ──
-function handleForm(e){
+// ── FORM ENVOI DIRECT (FormSubmit.co) ──
+async function handleForm(e){
   e.preventDefault();
   const nom     = document.getElementById('f-nom').value.trim();
   const email   = document.getElementById('f-email').value.trim();
   const objet   = document.getElementById('f-objet').value.trim() || 'Message depuis le portfolio';
   const message = document.getElementById('f-message').value.trim();
+  const btn     = document.getElementById('submitBtn');
 
-  const sujet = encodeURIComponent('[Portfolio] ' + objet + ' — de ' + nom);
-  const corps = encodeURIComponent(
-    'Bonjour Landry,\n\nTu as reçu un message depuis ton portfolio.\n\n' +
-    '👤 Nom : ' + nom + '\n' +
-    '📧 Email de réponse : ' + email + '\n\n' +
-    '💬 Message :\n' + message + '\n\n' +
-    '---\nEnvoyé depuis portfolio Landry Tapsoba'
-  );
+  // État chargement
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Envoi en cours…';
+  btn.style.background = 'linear-gradient(135deg,#555,#333)';
 
-  window.location.href = 'mailto:Landrytapsoba7187@gmail.com?subject=' + sujet + '&body=' + corps;
-
-  const btn = document.getElementById('submitBtn');
-  btn.innerHTML = '✅ Application mail ouverte !';
-  btn.style.background = 'linear-gradient(135deg,var(--teal),var(--teal2))';
-  setTimeout(() => {
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Envoyer le message';
-    btn.style.background = 'linear-gradient(135deg,var(--gold),var(--gold2))';
-    document.getElementById('contactForm').reset();
-  }, 4000);
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/Landrytapsoba7187@gmail.com', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        name: nom,
+        email: email,
+        _subject: '[Portfolio] ' + objet + ' — de ' + nom,
+        message: '👤 Nom : ' + nom + '\n📧 Email : ' + email + '\n\n💬 Message :\n' + message,
+        _template: 'table'
+      })
+    });
+    const data = await res.json();
+    if(data.success === 'true' || data.success === true){
+      btn.innerHTML = '✅ Message envoyé avec succès !';
+      btn.style.background = 'linear-gradient(135deg,var(--teal),var(--teal2))';
+      document.getElementById('contactForm').reset();
+      setTimeout(()=>{
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Envoyer le message';
+        btn.style.background = 'linear-gradient(135deg,var(--gold),var(--gold2))';
+        btn.disabled = false;
+      }, 4000);
+    } else { throw new Error(); }
+  } catch {
+    btn.innerHTML = '❌ Erreur — réessaie';
+    btn.style.background = 'linear-gradient(135deg,#c0392b,#922b21)';
+    setTimeout(()=>{
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Envoyer le message';
+      btn.style.background = 'linear-gradient(135deg,var(--gold),var(--gold2))';
+      btn.disabled = false;
+    }, 3500);
+  }
 }
 </script>
 </body>
