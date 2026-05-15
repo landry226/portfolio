@@ -246,7 +246,8 @@ section{padding:7rem 6%;position:relative}
 }
 .s-eyebrow::before{content:'──';opacity:.4;color:var(--teal)}
 h2{font-family:var(--fh);font-size:clamp(1.9rem,4vw,3rem);font-weight:800;letter-spacing:-.02em}
-h2 em{font-style:normal;background:linear-gradient(135deg,var(--gold),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h2 em{font-style:normal;background:linear-gradient(270deg,var(--gold),var(--teal),var(--purple),var(--pink),var(--gold));background-size:400% 400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShift 6s ease infinite}
+@keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
 /* ── DIVIDER ── */
 .divider{
@@ -770,6 +771,40 @@ section.visible-section::after{height:100%}
 .srv-card.pink .srv-arrow{color:var(--pink)}
 .srv-card:hover .srv-arrow{opacity:1;transform:translate(0,0)}
 
+/* ── SCROLL PROGRESS BAR ── */
+#scroll-bar{position:fixed;top:0;left:0;height:2px;width:0%;z-index:10000;pointer-events:none;background:linear-gradient(90deg,var(--gold),var(--teal),var(--purple),var(--pink));box-shadow:0 0 10px rgba(255,196,68,.6);transition:width .08s linear}
+
+/* ── CURSOR TRAIL ── */
+.trail-dot{position:fixed;border-radius:50%;pointer-events:none;z-index:9990;transform:translate(-50%,-50%);animation:trailFade .55s ease forwards}
+@keyframes trailFade{0%{opacity:.8;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(0)}}
+
+/* ── CLICK RIPPLE ── */
+.click-ripple{position:fixed;border-radius:50%;pointer-events:none;z-index:9989;transform:translate(-50%,-50%) scale(0);animation:clickRipple .55s ease-out forwards}
+@keyframes clickRipple{0%{opacity:.6;transform:translate(-50%,-50%) scale(0)}100%{opacity:0;transform:translate(-50%,-50%) scale(4)}}
+
+/* ── SKILL DOT STAGGER POP ── */
+@keyframes dotPop{0%{transform:scale(0);opacity:0}60%{transform:scale(1.4)}100%{transform:scale(1);opacity:1}}
+.skill-dot.popping{animation:dotPop .35s ease forwards;opacity:0}
+
+/* ── CARD GLOW LAYER for srv-cards ── */
+.srv-card .srv-glow{
+  position:absolute;inset:0;border-radius:22px;pointer-events:none;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,196,68,.06),transparent 55%);
+  opacity:0;transition:opacity .3s;
+}
+.srv-card:hover .srv-glow{opacity:1}
+.srv-card.teal .srv-glow{background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,245,200,.07),transparent 55%)}
+.srv-card.purple .srv-glow{background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(181,123,238,.07),transparent 55%)}
+.srv-card.pink .srv-glow{background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,110,180,.07),transparent 55%)}
+
+/* ── SECTION EYEBROW SCAN ── */
+@keyframes scanLine{0%{width:0;opacity:1}80%{opacity:1}100%{width:40px;opacity:.4}}
+.s-eyebrow.visible::before{animation:scanLine .8s ease forwards}
+
+/* ── FLOATING ORBS behind sections ── */
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);animation:orbDrift 12s ease-in-out infinite}
+@keyframes orbDrift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,25px) scale(.95)}}
+
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
   .about-grid,.contact-new{grid-template-columns:1fr;gap:3rem}
@@ -797,6 +832,9 @@ section.visible-section::after{height:100%}
 </style>
 </head>
 <body>
+
+<!-- Scroll progress -->
+<div id="scroll-bar"></div>
 
 <!-- Custom cursor -->
 <div id="cursor"></div>
@@ -1117,6 +1155,7 @@ section.visible-section::after{height:100%}
       </div>
 
       <div class="srv-card teal reveal">
+        <div class="srv-glow"></div>
         <div class="srv-num">02 / 08</div>
         <div class="srv-ico-wrap"><div class="srv-icon">🔒</div></div>
         <div class="srv-name">Sécurité informatique</div>
@@ -1129,6 +1168,7 @@ section.visible-section::after{height:100%}
       </div>
 
       <div class="srv-card purple reveal">
+        <div class="srv-glow"></div>
         <div class="srv-num">03 / 08</div>
         <div class="srv-ico-wrap"><div class="srv-icon">🔧</div></div>
         <div class="srv-name">Maintenance informatique</div>
@@ -1141,6 +1181,7 @@ section.visible-section::after{height:100%}
       </div>
 
       <div class="srv-card pink reveal">
+        <div class="srv-glow"></div>
         <div class="srv-num">04 / 08</div>
         <div class="srv-ico-wrap"><div class="srv-icon">🎨</div></div>
         <div class="srv-name">Création de flyers & affiches</div>
@@ -1165,6 +1206,7 @@ section.visible-section::after{height:100%}
       </div>
 
       <div class="srv-card teal reveal">
+        <div class="srv-glow"></div>
         <div class="srv-num">06 / 08</div>
         <div class="srv-ico-wrap"><div class="srv-icon">🗄️</div></div>
         <div class="srv-name">Gestion de bases de données</div>
@@ -1177,6 +1219,7 @@ section.visible-section::after{height:100%}
       </div>
 
       <div class="srv-card purple reveal">
+        <div class="srv-glow"></div>
         <div class="srv-num">07 / 08</div>
         <div class="srv-ico-wrap"><div class="srv-icon">🐍</div></div>
         <div class="srv-name">Scripts & Automatisation</div>
@@ -1189,6 +1232,7 @@ section.visible-section::after{height:100%}
       </div>
 
       <div class="srv-card pink reveal">
+        <div class="srv-glow"></div>
         <div class="srv-num">08 / 08</div>
         <div class="srv-ico-wrap"><div class="srv-icon">🖥️</div></div>
         <div class="srv-name">Installation & Configuration</div>
@@ -1489,6 +1533,122 @@ const revealObs=new IntersectionObserver(entries=>{
 document.querySelectorAll('.reveal').forEach((el,i)=>{
   el.style.transitionDelay=(i%5)*.08+'s';revealObs.observe(el);
 });
+
+// ── SCROLL PROGRESS BAR ──
+const scrollProgressBar=document.getElementById('scroll-bar');
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  scrollProgressBar.style.width=Math.min(pct,100)+'%';
+},{passive:true});
+
+// ── CURSOR TRAIL ──
+const trailColors=['var(--gold)','var(--teal)','var(--purple)','var(--pink)'];
+let lastTrailTime=0;
+document.addEventListener('mousemove',e=>{
+  const now=Date.now();
+  if(now-lastTrailTime<40)return;
+  lastTrailTime=now;
+  const dot=document.createElement('div');
+  dot.className='trail-dot';
+  const sz=Math.random()*4+2;
+  dot.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;width:${sz}px;height:${sz}px;background:${trailColors[Math.floor(Math.random()*4)]};box-shadow:0 0 ${sz*2}px currentColor`;
+  document.body.appendChild(dot);
+  setTimeout(()=>dot.remove(),560);
+},{passive:true});
+
+// ── CLICK RIPPLE ──
+document.addEventListener('click',e=>{
+  const rip=document.createElement('div');
+  rip.className='click-ripple';
+  rip.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;width:40px;height:40px;border:1.5px solid rgba(255,196,68,.5)`;
+  document.body.appendChild(rip);
+  setTimeout(()=>rip.remove(),560);
+});
+
+// ── 3D TILT ON CARDS ──
+document.querySelectorAll('.proj-card,.srv-card,.skill-card,.contact-card').forEach(card=>{
+  let tiltRaf;
+  card.addEventListener('mousemove',e=>{
+    cancelAnimationFrame(tiltRaf);
+    tiltRaf=requestAnimationFrame(()=>{
+      const r=card.getBoundingClientRect();
+      const cx=(e.clientX-r.left)/r.width-.5;
+      const cy=(e.clientY-r.top)/r.height-.5;
+      const tiltX=cy*-12;
+      const tiltY=cx*12;
+      card.style.transform=`perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-8px) scale(1.02)`;
+    });
+  });
+  card.addEventListener('mouseleave',()=>{
+    cancelAnimationFrame(tiltRaf);
+    card.style.transform='';
+  });
+});
+
+// ── MOUSE GLOW ON SRV-CARDS ──
+document.querySelectorAll('.srv-card').forEach(card=>{
+  if(!card.querySelector('.srv-glow')){
+    const g=document.createElement('div');g.className='srv-glow';
+    card.insertBefore(g,card.firstChild);
+  }
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
+
+// ── MAGNETIC BUTTONS ──
+document.querySelectorAll('.nav-cta,.email-cta').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    const cx=e.clientX-r.left-r.width/2;
+    const cy=e.clientY-r.top-r.height/2;
+    btn.style.transform=`translate(${cx*.18}px,${cy*.25}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{ btn.style.transform=''; });
+});
+
+// ── SKILL DOTS STAGGER ANIMATION ──
+const dotObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const dots=e.target.querySelectorAll('.skill-dot.lit');
+      dots.forEach((d,i)=>{
+        d.classList.add('popping');
+        d.style.animationDelay=i*.12+'s';
+      });
+      dotObs.unobserve(e.target);
+    }
+  });
+},{threshold:.4});
+document.querySelectorAll('.skill-card').forEach(c=>dotObs.observe(c));
+
+// ── PARTICLE MOUSE REPULSION ──
+let pmx=0,pmy=0;
+document.addEventListener('mousemove',e=>{pmx=e.clientX;pmy=e.clientY},{passive:true});
+(function repulse(){
+  particles.forEach(p=>{
+    const dx=p.x-pmx,dy=p.y-pmy;
+    const d=Math.hypot(dx,dy);
+    if(d<90&&d>0){
+      const f=(90-d)/90*.5;
+      p.vx+=(dx/d)*f;p.vy+=(dy/d)*f;
+    }
+    const spd=Math.hypot(p.vx,p.vy);
+    if(spd>1.8){p.vx*=.9;p.vy*=.9}
+  });
+  requestAnimationFrame(repulse);
+})();
+
+// ── DYNAMIC PARALLAX on scroll ──
+window.addEventListener('scroll',()=>{
+  const sy=window.scrollY;
+  document.querySelectorAll('.blob').forEach((b,i)=>{
+    const speed=[.04,.06,.03][i]||.04;
+    b.style.transform=`translateY(${sy*speed}px)`;
+  });
+},{passive:true});
 
 </script>
 </body>
